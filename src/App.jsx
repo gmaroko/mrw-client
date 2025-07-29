@@ -17,9 +17,7 @@ const App = () => {
   let getType = "now_playing";
 
   const getMovies = async () => {
-    console.log(type);
     if (type && type !== "") {
-      console.log(type);
       getType = type.toLowerCase();
     }
     try{
