@@ -119,7 +119,7 @@ const Reviews = () => {
                                 <Row>
                                     <Col>{review.content}</Col>
                                     <Col>Score: {review.rating}</Col>
-                                    posted by - {review.userId.fullName}
+                                    posted by - {user?.userId === review.userId ? " me" : review.userId.fullName}
                                 </Row>
                                 <Row>
                                     <Col>
