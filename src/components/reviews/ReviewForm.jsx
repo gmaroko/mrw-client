@@ -6,9 +6,12 @@ import ReactStars from "react-rating-stars-component";
 const ReviewForm = ({ handleSubmit, revText, labelText, defaultValue, rating, error, setRating }) => {
     return (
         <Form>
-
+            <Form.Group className='mb-3' controlId="exampleForm.ControlTextarea1">
+                <Form.Label column={true}>{labelText}</Form.Label>
+                <Form.Control ref={revText} as='textarea' rows={3} defaultValue={defaultValue} required minLength={20}/>
+            </Form.Group>
             <Form.Group className="mb-3" controlId="starRating">
-                <Form.Label column={true}>Rating</Form.Label>
+                <Form.Label column={true}>Rate: </Form.Label>
                 <ReactStars
                     count={5}
                     onChange={setRating}
@@ -16,11 +19,6 @@ const ReviewForm = ({ handleSubmit, revText, labelText, defaultValue, rating, er
                     activeColor="#ffd700"
                     value={rating}
                 />
-            </Form.Group>
-
-            <Form.Group className='mb-3' controlId="exampleForm.ControlTextarea1">
-                <Form.Label column={true}>{labelText}</Form.Label>
-                <Form.Control ref={revText} as='textarea' rows={3} defaultValue={defaultValue} required minLength={20}/>
             </Form.Group>
 
             {error && <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>}

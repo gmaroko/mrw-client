@@ -44,12 +44,18 @@ const Landing = () => {
                                         </div>
 
                                         <div className="movie-buttons-container">
+
+
+
                                             <div className="play-button-icon-container">
-                                                <FontAwesomeIcon
-                                                    className="play-button-icon"
-                                                    icon={faCirclePlay}
-                                                />
+                                                <Link to={`/trailer/${movie.id}`}>
+                                                    <FontAwesomeIcon
+                                                        className="play-button-icon"
+                                                        icon={faCirclePlay}
+                                                    />
+                                                </Link>
                                             </div>
+
 
                                             <div className="movie-review-button-container">
                                                 <Button variant="info" onClick={() => navigate(`/reviews/${movie.id}`)}>

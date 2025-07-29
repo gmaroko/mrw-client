@@ -90,31 +90,46 @@ const Reviews = () => {
                     <Row>
                         <Col>
                             <h3>Synopsis...</h3>
-                            <p>{movie?.overview}</p>
+                            <Row>
+                                <Col>{movie?.overview}</Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <hr />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>TMDb Vote Count: {movie?.vote_count} | TMDb Average Score: {movie?.vote_average}</Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <hr />
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
                     <br/>
                     <br/>
-                    <p> User reviews ...</p>
 
-                    {
-                        reviews?.map((review) => {
-                            return (
-                                <div key={review.createdAt}>
-                                    <Row>
-                                        <Col>{review.content}</Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <hr />
-                                        </Col>
-                                    </Row>
-                                </div>
-                            )
-                        })
-                    }
+                    {reviews && reviews.length > 0 ? (
+                        reviews.map((review) => (
+                            <div key={review._id}>
+                                <Row>
+                                    <Col>{review.content}</Col>
+                                    <Col>Score: {review.rating}</Col>
+                                    posted by - {review.userId.fullName}
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <hr />
+                                    </Col>
+                                </Row>
+                            </div>
+                        ))
+                    ) : (
+                        <p>There are no user reviews available for this content.</p>
+                    )}
 
-                    <br/>
                     <br/>
                     <br/>
                     <Row>
