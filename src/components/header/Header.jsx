@@ -1,10 +1,13 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFilm } from '@fortawesome/free-solid-svg-icons'
+import {faFilm, faUser} from '@fortawesome/free-solid-svg-icons'
 import { Button, Navbar, Nav, Container } from 'react-bootstrap'
 import {Link, NavLink} from 'react-router-dom'
+import {useAuth} from "../../context/AuthContext.jsx";
 
 const Header = () => {
+    const { user, logout } = useAuth();
+
     return (
         <Navbar bg='dark' variant='dark' expand='lg'>
             <Container fluid>
@@ -23,10 +26,22 @@ const Header = () => {
                         <NavLink className='nav-link' to="/popular">#Popular</NavLink>
                         <NavLink className='nav-link' to="/upcoming">#Upcoming</NavLink>
                     </Nav>
-                    <Button variant='outline-info' className='me-2'>Discover</Button>
+                    {/*<Button as={Link} to="/search" variant='outline-info' className='me-2'>Discover</Button>*/}
 
-                    <Button as={Link} to="/login" variant="outline-info" className="me-2">Login</Button>
-                    <Button as={Link} to="/register" variant="outline-info" className="me-2">Register</Button>
+
+                    {user ? (
+                        <div className="d-flex align-items-center">
+                            <FontAwesomeIcon icon={faUser} className="me-2" />
+                            <span className="text-light me-3">{user.username}</span>
+                            <Button variant="outline-light" onClick={logout}>Logout</Button>
+                        </div>
+                    ) : (
+                        <Nav>
+                            <Button as={Link} to="/login" variant="outline-info" className="me-2">Login</Button>
+                            <Button as={Link} to="/register" variant="outline-info" className="me-2">Register</Button>
+                        </Nav>
+                    )}
+
                 </Navbar.Collapse>
             </Container>
         </Navbar>

@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { useEffect, useRef } from 'react';
 import api from '../../api/apiConfig';
 import { Container, Row, Col } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import ReviewForm from './ReviewForm';
 import "./Reviews.css";
+import {useAuth} from "../../context/AuthContext.jsx";
 
 const Reviews = () => {
+    const { user } = useAuth();
 
     const [movie, setMovie] = useState();
     let [reviews, setReviews] = useState([]);
@@ -60,7 +62,7 @@ const Reviews = () => {
             content: rev.value,
             movieId: movieId,
             rating: rating,
-            userId: localStorage.getItem("userId") || "686dc5b88268f4c625fba934"
+            userId: user.userId
         });
 
         await getMovieReviews(movieId);
@@ -132,22 +134,53 @@ const Reviews = () => {
 
                     <br/>
                     <br/>
-                    <Row>
-                        {
-                            <>
-                                <Row>
-                                    <Col>
-                                        <ReviewForm handleSubmit={addReview} revText={revText} rating={rating} setRating={setRating} labelText="Write a Review?" />
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <hr />
-                                    </Col>
-                                </Row>
-                            </>
-                        }
-                    </Row>
+
+
+                    {user ? (
+                        <>
+                            <Row>
+                                <Col>
+                                    <ReviewForm
+                                        handleSubmit={addReview}
+                                        revText={revText}
+                                        rating={rating}
+                                        setRating={setRating}
+                                        labelText="Write a Review?"
+                                    />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <hr />
+                                </Col>
+                            </Row>
+                        </>
+                    ) : (
+                        <Row>
+                            <Col>
+                                <p>
+                                    <Link to="/login">Log in</Link> to write a review.
+                                </p>
+                            </Col>
+                        </Row>
+                    )}
+
+                    {/*<Row>*/}
+                    {/*    {*/}
+                    {/*        <>*/}
+                    {/*            <Row>*/}
+                    {/*                <Col>*/}
+                    {/*                    <ReviewForm handleSubmit={addReview} revText={revText} rating={rating} setRating={setRating} labelText="Write a Review?" />*/}
+                    {/*                </Col>*/}
+                    {/*            </Row>*/}
+                    {/*            <Row>*/}
+                    {/*                <Col>*/}
+                    {/*                    <hr />*/}
+                    {/*                </Col>*/}
+                    {/*            </Row>*/}
+                    {/*        </>*/}
+                    {/*    }*/}
+                    {/*</Row>*/}
                 </Col>
             </Row>
             <Row>
