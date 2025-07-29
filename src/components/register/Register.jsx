@@ -1,9 +1,13 @@
+import "./Register.css";
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/apiConfig.js";
+import {useAuth} from "../../context/AuthContext.jsx";
 
 const Register = () => {
+    const { login } = useAuth();
+
     const [formData, setFormData] = useState({
         fullName: "",
         email: "",
@@ -20,10 +24,23 @@ const Register = () => {
             password: data.password,
             fullName: data.fullName
         });
+        if(response.data.statusCode === "201"){
+            let user = {
+                "token": response.data.data.accessToken,
+                "userId": response.data.data.user._id,
+                "username": response.data.data.user.fullName,
+                "email": response.data.data.user.email,
+            };
+            login(user);
+            navigate('/');
+        } else {
+            setError(response.data.statusMessage);
+            navigate("/register");
+        }
     }
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.fullName]: e.target.value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = (e) => {
@@ -43,17 +60,11 @@ const Register = () => {
 
         setError("");
 
-        addUser(formData).then(r => {
-            if(r.success) {
-                navigate("/login");
-            } else {
-                setError(r.response.data.errors);
-            }
-        });
+        addUser(formData);
     };
 
     return (
-        <div className="register-container">
+        <div className="register-container" id="register">
             <h2>Register</h2>
             <Form onSubmit={handleSubmit}>
                 {error && <Alert variant="danger">{error}</Alert>}
@@ -102,7 +113,7 @@ const Register = () => {
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" style={{ background: "teal" }}>
                     Register
                 </Button>
             </Form>
